@@ -4,9 +4,15 @@ version = "0.1.0"
 description = ""
 authors = ["Govardhan Ummadisetty <vardhank9@gmail.com>"]
 readme = "README.md"
+packages = [{include = "goaio"}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
+streamlit = "^1.35.0"
+watchdog = "^4.0.1"
+
+[tool.poetry.scripts]
+goaio = "goaio:__main__"
 
 
 [build-system]
