@@ -1,16 +1,27 @@
 import streamlit as st
-import subprocess
-
-st.write('GoAIO')
-devices = ['dev 1', 'dev 2']
-st.sidebar.selectbox(label="Select the device", options=devices)
-st.error('no device connected')
+import streamlit.web.bootstrap as st_bootstrap
+from goaio.ui import app
+import logging
 
 
-def main():
-    cmd = ['streamlit', 'run', 'app.py']
-    subprocess.call(cmd)
+logger = logging.getLogger(__name__)
+logger.setLevel(level=logging.DEBUG)
+
+
+def run():
+    if st.runtime.exists():
+        # The app has been executed with `streamlit run goaio/app.py`
+        logger.info('Starting the app with existing runtime')
+        app()
+    else:
+        logger.info('Creating a runtime')
+        st_bootstrap.run(
+            __file__,
+            is_hello=False,
+            args=[],
+            flag_options={},
+        )
 
 
 if __name__ == "__main__":
-    main()
+    run()

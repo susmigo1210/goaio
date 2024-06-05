@@ -7,12 +7,14 @@ readme = "README.md"
 packages = [{include = "goaio"}]
 
 [tool.poetry.dependencies]
+# added using poetry add --source pypi <package name>
 python = "^3.10"
-streamlit = "^1.35.0"
-watchdog = "^4.0.1"
+logging = {version = "^0.4.9.6", source = "pypi"}
+streamlit = {version = "^1.35.0", source = "pypi"}
+watchdog = {version = "^4.0.1", source = "pypi"}
 
 [tool.poetry.scripts]
-goaio = "goaio:__main__"
+goaio = "goaio.app:run"
 
 
 [build-system]
