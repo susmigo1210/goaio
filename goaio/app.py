@@ -1,20 +1,19 @@
 import streamlit as st
 import streamlit.web.bootstrap as st_bootstrap
-from goaio.ui import app
-import logging
+from goaio.ui import Ui
+from goaio.utils.loghandler import get_logger
 
-
-logger = logging.getLogger(__name__)
-logger.setLevel(level=logging.DEBUG)
+app_logger = get_logger(file_name=__name__)
 
 
 def run():
     if st.runtime.exists():
         # The app has been executed with `streamlit run goaio/app.py`
-        logger.info('Starting the app with existing runtime')
-        app()
+        app_logger.info("===========================================================")
+        app_logger.info(f'Starting the app. isRuntimeExists: {st.runtime.exists()} ')
+        Ui()
     else:
-        logger.info('Creating a runtime')
+        app_logger.info('Creating a runtime and starting the app')
         st_bootstrap.run(
             __file__,
             is_hello=False,
