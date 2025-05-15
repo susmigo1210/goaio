@@ -13,6 +13,7 @@ logging = {version = "^0.4.9.6", source = "pypi"}
 streamlit = {version = "^1.35.0", source = "pypi"}
 watchdog = {version = "^4.0.1", source = "pypi"}
 psutil = {version = "^5.9.8", source = "pypi"}
+adbutils = {version = "^2.7.2", source = "pypi"}
 
 [tool.poetry.scripts]
 goaio = "goaio.app:run"

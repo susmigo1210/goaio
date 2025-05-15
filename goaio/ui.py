@@ -1,6 +1,9 @@
 import os
+
 import psutil
 import streamlit as st
+
+from goaio.utils.devicehandler import Devices
 from goaio.utils.loghandler import get_logger
 
 ui_logger = get_logger(__name__)
@@ -9,45 +12,61 @@ ui_logger = get_logger(__name__)
 class Ui:
     def __init__(self):
         self.session_state = st.session_state
-        self.device = None
+        self.dut = None
+        self.devices = Devices().get_connected_devices()
         self.initialize_ui()
         self.main_page()
         self.side_bar()
 
     def initialize_ui(self):
         try:
-            st.set_page_config(page_title="GoAIO - Assistant", layout="wide", initial_sidebar_state="expanded")
+            st.set_page_config(
+                page_title="GoAIO - Assistant", layout="wide", initial_sidebar_state="expanded"
+            )
             ui_logger.info("Page configuration set.")
         except Exception as e:
             ui_logger.error(f"Error initializing UI: {e}")
 
     def main_page(self):
         try:
-            bug, cmt, ss, sr, vm = st.tabs(["🐞 Bug Descriptor",
-                                            " Comment Descriptor", "Screenshot", "screenrecord", "Version Manager"])
+            bug, cmt, ss, sr, vm = st.tabs(
+                [
+                    "🐞 Bug Descriptor",
+                    " Comment Descriptor",
+                    "Screenshot",
+                    "screenrecord",
+                    "Version Manager",
+                ]
+            )
 
             with bug:
-                st.title('Bug Descriptor')
+                st.title("Bug Descriptor")
             ui_logger.info("Main page set up.")
         except Exception as e:
             ui_logger.error(f"Error setting up main page: {e}")
 
     def side_bar(self):
         try:
-            st.sidebar.title('GoAIO - Assistant :sparkles:')
-            st.sidebar.selectbox(label="Select the project",
-                                 options=['Android TV', 'Personal Safety', 'Photos'],
-                                 help="Select the project that you are working on.")
-            self.device = st.sidebar.selectbox(label="Select the device",
-                                               options=['device 1', 'device 2'],
-                                               help="Select the device to perform operations")
-            st.sidebar.info(f"selected device {self.device}", icon="📱")
+            st.sidebar.image(image="goaio/images/logo.png")
             st.sidebar.divider()
-            st.toast(f'selected {self.device}')
-            if self.device:
-                st.sidebar.write(f'Device: {self.device}')
-                st.sidebar.write('Build:')
-                st.sidebar.write('GMS core:')
+            st.sidebar.selectbox(
+                label="Select the project",
+                options=["Android TV", "Personal Safety", "Photos"],
+                help="Select the project that you are working on.",
+            )
+            self.dut = st.sidebar.selectbox(
+                label="Select the device",
+                options=self.devices,
+                help="Select the device to perform operations",
+            )
+            st.sidebar.info(f"selected device {self.dut}", icon="📱")
+            st.sidebar.divider()
+            st.sidebar.write("### Device info")
+            st.toast(f"selected {self.dut}")
+            if self.dut:
+                st.sidebar.write(f"Device: {self.dut}")
+                st.sidebar.write("Build:")
+                st.sidebar.write("GMS core:")
             st.sidebar.divider()
 
             ui_logger.info("Sidebar set up.")

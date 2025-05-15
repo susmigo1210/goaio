@@ -9,7 +9,7 @@ app_logger = get_logger(file_name=__name__)
 def run():
     if st.runtime.exists():
         # The app has been executed with `streamlit run goaio/app.py`
-        app_logger.info("===========================================================")
+        app_logger.info(f"===========================================================")
         app_logger.info(f'Starting the app. isRuntimeExists: {st.runtime.exists()} ')
         Ui()
     else:
